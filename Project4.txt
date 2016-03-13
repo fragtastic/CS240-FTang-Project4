@@ -1,0 +1,82 @@
+CS240 -- Project 3: Stack Application
+Daisy Tang 	
+
+No Late Submission is Allowed.
+
+ 
+
+Project Description:
+
+We are used to write arithmetic expressions with the operator between the two operands: a+b or c%d. If we write a+b*c, however, we have to apply precedence orders to avoid ambiguous evaluation. This type of expression is call infix expression. There are other two types of different but equivalent ways of writing expressions.
+
+    Infix: X+Y: Operators are written in-between their operands. Infix expression needs extra information to make the order of evaluation of the operators clear: precedence and associativity, brackets ( ). For example, A*(B+C)/D.
+
+    Postfix: XY+: Operators are written after their operands. The above infix expression should be written as ABC+*D/
+
+    Prefix: +XY: Operators are written before their operands. The above infix expression should be written as /*A+BCD
+
+More examples of the above three expressions are given below:
+Infix			Postfix		Prefix
+a+b+c			ab+c+		++abc
+a+b*c			abc*+		+a*bc
+(a+b)*(c-d) 	ab+cd-* 	*+ab-cd
+
+You are to implement two methods that can convert an infix expression entered by the user to its equivalent postfix and prefix expressions. You program should keep asking the user to enter the infix expression, until the user hits ENTER. Your program results MUST resemble this provided executable. You don't have to implement a GUI.
+
+You can also make the assumption that each variable name will be a single character and leave no space between characters when the infix is entered.
+
+Conversion of Infix to Postfix
+
+In infix expressions, we know that operators have different precedence orders to avoid ambiguous meaning. The operators "+" and "-" have the same precedence. The operators "*", "/", "%" also have the same precedence, but have higher precedence than "+" and "-". Operators have a higher precedence than the left parenthesis.
+
+An infix expression can be converted to a postfix expression using a stack. Starting from the left most symbol in the infix expression, we follow the following steps and advance to the next symbol in the infix expression until we reach the end of the expression.
+
+    Variables (such as a, b, and c) are directly copied to the output.
+    Left parentheses are always pushed onto a stack.
+    When a right parenthesis is encountered, the symbol on the top of the stack is popped off the stack and copied to the output. This process repeats until the top of the stack is a left parenthesis. When that occurs, both parentheses are discarded.
+    If the symbol been scanned has a higher precedence than the symbol on the top of the stack, the symbol being scanned is pushed onto the stack.
+    If the symbol been scanned has a lower or the same precedence than the symbol at the top of the stack, the symbol at the top of the stack is popped off to the output. The symbol been scanned will be compared with the new top element on the stack, and the process continues.
+    When the input is empty, the stack is popped to the output until the stack is empty. Then the algorithm terminates.
+    If the input is empty but the stack still has a left parenthesis, or a right parenthesis is scanned when the stack is empty, the parenthesis of the original expression were unbalanced.
+
+Conversion of Infix to Prefix
+
+An infix expression can also be converted to a prefix expression using two stacks: one for operators and the other for operands. Starting from the left most symbol in the expression, we follow the following steps and advance to the next symbol in the infix expression until we reach the end of the expression.
+
+    Variables (operands) are pushed onto the operand stack
+    Left parentheses are always pushed onto the operators stack.
+    When a right parenthesis is encountered, the operator in the operator stack is popped off and saved to op, the expression on the top of the operand stack is popped off  and saved to RightOperand, another expression on the top of the operand stack is popped off and saved to LeftOperand. A new expression is formed by "op LeftOperand RightOperand" and is pushed back to the operand stack. This process repeats until the top of the stack is a left parenthesis. When that occurs, both parentheses are discarded.
+    If the symbol been scanned has a higher precedence than the symbol on the top of the operator stack, the symbol being scanned is pushed onto the operator stack.
+    If the symbol been scanned has a lower or the same precedence than the symbol on the top of the operator stack, the symbol on the top of the stack is popped off and saved to op. Popped two expressions from the operands stack and saved them to RightOperand and LeftOperator respectively. They form a new expression "op LeftOperand RightOperand" and is pushed to the operand stack. The symbol been scanned will be compared with the new top element on the operator stack, and the process continue.
+    If the operator stack is not empty, continue to pop operator and operand stacks building prefix expression until the operator stack is empty.
+    Make sure you also check for unmatched parentheses.
+
+What to test?
+
+Think of your own cases: correct input, without parentheses or with matched parentheses; and incorrect input (with unmatched parentheses). Your program should catch the error with unmatched parentheses and when one of the operands is missing. Make sure that you deal with all error conditions, for example, pop/top on an empty stack.
+
+Multiple spaces should be allowed between operands and operators.
+
+Alternatives:
+
+You can choose to implement your conversion algorithms based on the standard Stack interface provided by Java (java.util.stack) or your own stack implementation.
+
+What to Submit?
+
+E-files (submitted via email):
+
+    Your .java source files.
+
+    Your project report.
+
+    The output of your test in .txt format. Please select various cases for testing: the correct input, incorrect inputs, boundary data, etc.
+
+Grading Guide
+
+    15%: Project report.
+
+    75%: Program correctness. If your program does not compile, you get a zero or partial points here.
+
+    10%: Your code. Program efficiency. Programming style. Program follows the Do's and Don'ts.
+
+Last updated: Feb. 2016
